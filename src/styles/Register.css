@@ -1,0 +1,87 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    flex-direction: column; /* Додано для розміщення логотипу і форми вертикально */
+  }
+  
+  .logo {
+    font-family: 'Comforter Brush', cursive;
+    font-size: 48px;
+    color: #000;
+    margin-bottom: 20px; /* Додано відступ між логотипом і формою */
+  }
+  
+  .auth-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .auth-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  
+  .input-group input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .auth-button {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .auth-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .auth-link {
+    text-align: center;
+    margin-top: 1rem;
+    color: #555;
+  }
+  
+  .auth-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .auth-link a:hover {
+    text-decoration: underline;
+  }
+  
+  .auth-message {
+    text-align: center;
+    margin-top: 1rem;
+    color: green;
+    font-weight: bold;
+  }
+  
