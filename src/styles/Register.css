@@ -1,39 +1,39 @@
-/* Загальний стиль контейнера реєстрації */
+
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #f7f7f7;
-  flex-direction: column; /* Розміщення логотипу і форми вертикально */
+  flex-direction: column; 
   margin: 0;
-  overflow: hidden; /* Блокування прокрутки */
-  position: fixed; /* Зафіксування контейнера */
+  overflow: hidden; 
+  position: fixed; 
   top: 0;
   left: 0;
-  width: 100vw; /* Ширина на весь екран */
+  width: 100vw; 
 }
 
 
-/* Стиль логотипу реєстрації */
+
 .register-logo {
   font-family: 'Comforter Brush', cursive;
-  font-size: 94px; /* Збільшений розмір шрифту */
+  font-size: 94px; 
   color: #000;
-  margin-bottom: 20px; /* Відступ між логотипом і формою */
+  margin-bottom: 20px; 
 }
 
-/* Стиль форми реєстрації */
+
 .register-form {
   background-color: #ffffff;
   padding: 2rem;
-  border-radius: 12px; /* Трохи закругленіші кути для краси */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Більша тінь для кращого вигляду */
+  border-radius: 12px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
   width: 100%;
   max-width: 400px;
 }
 
-/* Стиль заголовка форми реєстрації */
+
 .register-title {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -41,12 +41,12 @@
   color: #333;
 }
 
-/* Стиль для групи інпутів */
+
 .input-group {
   margin-bottom: 1rem;
 }
 
-/* Стиль для інпутів */
+
 .input-group input {
   width: 100%;
   padding: 0.5rem;
@@ -55,13 +55,13 @@
   transition: border-color 0.3s;
 }
 
-/* Стиль для інпутів при фокусі */
+
 .input-group input:focus {
   border-color: #007bff;
   outline: none;
 }
 
-/* Стиль для кнопки реєстрації */
+
 .auth-button {
   width: 100%;
   padding: 0.7rem;
@@ -74,30 +74,29 @@
   transition: background-color 0.3s;
 }
 
-/* Стиль для кнопки при наведенні */
+
 .auth-button:hover {
   background-color: #0056b3;
 }
 
-/* Стиль посилання для переходу на авторизацію */
 .auth-link {
   text-align: center;
   margin-top: 1rem;
   color: #555;
 }
 
-/* Стиль посилання */
+
 .auth-link a {
   color: #007bff;
   text-decoration: none;
 }
 
-/* Стиль посилання при наведенні */
+
 .auth-link a:hover {
   text-decoration: underline;
 }
 
-/* Стиль повідомлення про успішну реєстрацію */
+
 .auth-message {
   text-align: center;
   margin-top: 1rem;

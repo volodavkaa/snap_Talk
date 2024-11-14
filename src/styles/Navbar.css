@@ -1,34 +1,80 @@
-nav {
+.navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 275px; 
   background-color: #f8f8f8;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  max-width: 1200px; /* Встановлює максимальну ширину */
-  margin: 0 auto; /* Центрує навбар */
+  padding: 20px 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  justify-content: space-between; 
 }
 
 .logo {
   font-family: 'Comforter Brush', cursive;
-  font-size: 90px; /* Розмір шрифту */
+  font-size: 30px; 
   color: #000;
   text-align: center;
-  margin-bottom: 0; /* Видаляє зайвий відступ */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-nav ul {
-  list-style: none;
+.nav-links {
+  list-style-type: none;
+  padding: 0;
+  flex-grow: 1;
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
 }
 
-nav a {
+.nav-links li {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
   text-decoration: none;
   color: #333;
-  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s;
 }
 
-nav a:hover {
+.nav-links a:hover {
   color: #007bff;
+}
+
+.nav-links i {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-top: auto; 
+  padding: 40px; 
+}
+
+.logout-button:hover {
+  color: #007bff;
+}
+
+.logout-button i {
+  margin-right: 10px;
+  font-size: 20px;
 }
