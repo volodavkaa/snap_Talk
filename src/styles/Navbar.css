@@ -1,23 +1,34 @@
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .navbar h2 {
-    margin: 0;
-  }
-  
-  .links a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .links a:hover {
-    color: #007bff;
-  }
-  
+nav {
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* Встановлює максимальну ширину */
+  margin: 0 auto; /* Центрує навбар */
+}
+
+.logo {
+  font-family: 'Comforter Brush', cursive;
+  font-size: 90px; /* Розмір шрифту */
+  color: #000;
+  text-align: center;
+  margin-bottom: 0; /* Видаляє зайвий відступ */
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #007bff;
+}

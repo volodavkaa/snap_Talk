@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Login.css'; 
+import '../styles/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +24,6 @@ const Login = () => {
         setMessage('Успішний вхід!');
         localStorage.setItem('token', data.token);
 
-        
         setTimeout(() => {
           navigate('/');
         }, 1000);
@@ -38,10 +37,11 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <div className="logo">SnapTalk</div>
-      <div className="auth-form">
+      <div className="auth-background"></div>
+      <div className="auth-wrapper">
+        <div className="logo">SnapTalk</div>
         <h2 className="auth-title">Авторизація</h2>
-        <form onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Електронна пошта:</label>
             <input
@@ -60,9 +60,7 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="auth-button">
-            Увійти
-          </button>
+          <button type="submit" className="auth-button">Увійти</button>
         </form>
         {message && <p className="auth-message">{message}</p>}
         <div className="auth-link">

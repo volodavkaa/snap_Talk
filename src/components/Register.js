@@ -30,10 +30,10 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="logo">SnapTalk</div>
-      <div className="auth-form">
-        <h2 className="auth-title">Реєстрація</h2>
+    <div className="register-container">
+      <div className="register-logo">SnapTalk</div>
+      <div className="register-form">
+        <h2 className="register-title">Реєстрація</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Ім'я:</label>
@@ -71,6 +71,7 @@ const Register = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Register;
