@@ -39,6 +39,11 @@ const Navbar = () => {
             <i className="fas fa-plus-circle"></i> Створити пост
           </Link>
         </li>
+        <li>
+          <Link to="/profile">
+            <i className="fas fa-user-circle"></i> Профіль
+          </Link>
+        </li>
       </ul>
       {token && (
         <button className="logout-button" onClick={handleLogout}>

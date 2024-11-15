@@ -7,7 +7,7 @@ import Login from './components/Login';
 import CreatePost from './components/CreatePost'; 
 import PostsPage from './pages/PostsPage';
 import './styles/App.css';
-
+import ProfilePage from './pages/ProfilePage';
 const App = () => {
   return (
     <div className="container">
@@ -20,6 +20,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/posts" element={<PostsPage />} />
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/profile" element={<ProfilePage />} /> {/* Додаємо маршрут профілю */}
         </Routes>
       </Router>
     </div>
