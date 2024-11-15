@@ -6,8 +6,9 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId'); // Додаємо userId з localStorage
 
-  // Перевірка для перенаправлення, лише якщо не на сторінці /login або /register
+  // Виконується перевірка та перенаправлення, якщо немає токена
   React.useEffect(() => {
     if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
       navigate('/login');
@@ -29,8 +30,14 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/chat">
+          {/* Використовуємо userId для посилання на чат */}
+          <Link to={`/chat/${userId}`}>
             <i className="fas fa-comments"></i> Чат
+          </Link>
+        </li>
+        <li>
+          <Link to="/search">
+            <i className="fas fa-search"></i> Пошук
           </Link>
         </li>
         <li>
@@ -44,11 +51,15 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
+
       {token && (
-        <button className="logout-button" onClick={() => {
-          localStorage.removeItem('token');
-          navigate('/login');
-        }}>
+        <button
+          className="logout-button"
+          onClick={() => {
+            localStorage.removeItem('token');
+            navigate('/login');
+          }}
+        >
           <i className="fas fa-sign-out-alt"></i> Вихід
         </button>
       )}

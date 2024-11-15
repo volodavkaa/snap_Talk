@@ -4,21 +4,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const { BlobServiceClient } = require('@azure/storage-blob');
+const mongoose = require('mongoose');
 const connectDB = require('./db');
 const User = require('../src/models/User');
 const Post = require('../src/models/Post');
-
+const Message = require('../src/models/Message');
 require('dotenv').config();
 
 const app = express();
-const upload = multer(); // Ініціалізація Multer для завантаження файлів
-
-// Підключення до MongoDB
 connectDB();
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const upload = multer();
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
 async function uploadImageToAzure(file) {
@@ -30,7 +30,19 @@ async function uploadImageToAzure(file) {
   return blockBlobClient.url;
 }
 
-// Реєстрація користувача
+// Token Middleware
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+  jwt.verify(token, 'your_jwt_secret', (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+
+// Register
 app.post('/api/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -47,7 +59,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Авторизація користувача
+// Login
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -60,31 +72,13 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ error: 'Неправильна електронна пошта або пароль' });
     }
     const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-    res.json({ token });
+    res.json({ token, userId: user._id }); // Додаємо userId у відповідь
   } catch (error) {
     res.status(500).json({ error: 'Сталася помилка сервера' });
   }
 });
 
-// Middleware для перевірки токена
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.sendStatus(401); // Unauthorized
-  }
-
-  jwt.verify(token, 'your_jwt_secret', (err, user) => {
-    if (err) {
-      return res.sendStatus(403); // Forbidden
-    }
-    req.user = user;
-    next();
-  });
-};
-
-// Захищений маршрут для завантаження зображень
+// Image Upload
 app.post('/api/upload-image', upload.single('image'), async (req, res) => {
   try {
     const file = req.file;
@@ -95,16 +89,13 @@ app.post('/api/upload-image', upload.single('image'), async (req, res) => {
   }
 });
 
-// Створення посту
+// Create Post
 app.post('/api/posts', upload.single('image'), authenticateToken, async (req, res) => {
   try {
     const { title, description } = req.body;
     const file = req.file;
     let imageUrl = '';
-
-    if (file) {
-      imageUrl = await uploadImageToAzure(file);
-    }
+    if (file) imageUrl = await uploadImageToAzure(file);
 
     const post = new Post({
       title,
@@ -112,39 +103,30 @@ app.post('/api/posts', upload.single('image'), authenticateToken, async (req, re
       imageUrl,
       author: req.user.userId,
     });
-
     await post.save();
 
-    // Оновлення користувача, додавання ID нового посту до масиву posts
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.userId,
-      { $push: { posts: post._id } },
-      { new: true }
-    );
-
+    await User.findByIdAndUpdate(req.user.userId, { $push: { posts: post._id } }, { new: true });
     res.status(201).json({ message: 'Пост успішно створено', post });
   } catch (error) {
     res.status(500).json({ error: 'Не вдалося створити пост' });
   }
 });
 
-// Маршрут для отримання всіх постів (для вкладки "Пости")
+// Get Posts
 app.get('/api/posts', async (req, res) => {
   try {
-    const posts = await Post.find().populate('author', 'name'); // Завантажуємо ім'я автора
+    const posts = await Post.find().populate('author', 'name');
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: 'Не вдалося отримати пости' });
   }
 });
 
-// Отримання профілю користувача
+// Get User Profile
 app.get('/api/profile', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).populate('posts');
-    if (!user) {
-      return res.status(404).json({ error: 'Користувач не знайдений' });
-    }
+    if (!user) return res.status(404).json({ error: 'Користувач не знайдений' });
     res.json({
       name: user.name,
       email: user.email,
@@ -157,39 +139,144 @@ app.get('/api/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// Завантаження аватара
+// Upload Avatar
 app.post('/api/upload-avatar', upload.single('image'), authenticateToken, async (req, res) => {
   try {
     const file = req.file;
     const imageUrl = await uploadImageToAzure(file);
-
     await User.findByIdAndUpdate(req.user.userId, { photoUrl: imageUrl });
-
     res.status(200).json({ imageUrl });
   } catch (error) {
     res.status(500).json({ error: 'Не вдалося завантажити аватар' });
   }
 });
-// Оновлення профілю користувача (з використанням middleware для аутентифікації)
+
+// Update Profile
 app.post('/api/update-profile', authenticateToken, async (req, res) => {
   try {
     const { name } = req.body;
-    const userId = req.user.userId; // Отримання userId з аутентифікації
-
-    // Оновіть ім'я користувача в базі даних
-    const updatedUser = await User.findByIdAndUpdate(userId, { name }, { new: true });
-    
-    if (!updatedUser) {
-      return res.status(404).json({ error: 'Користувач не знайдений' });
-    }
-
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, { name }, { new: true });
+    if (!updatedUser) return res.status(404).json({ error: 'Користувач не знайдений' });
     res.status(200).json({ message: 'Профіль оновлено успішно', user: updatedUser });
   } catch (error) {
-    console.error('Помилка при оновленні профілю:', error);
     res.status(500).json({ error: 'Не вдалося оновити профіль' });
   }
 });
 
-// Запуск сервера
+// Send Message
+app.post('/api/messages', authenticateToken, async (req, res) => {
+  try {
+    const { content, to } = req.body;
+    const from = req.user.userId;
+    const timestamp = new Date().toISOString();
+
+    if (!content || !to || !from) {
+      console.error('Дані для повідомлення відсутні:', { content, to, from });
+      return res.status(400).json({ error: 'Всі поля мають бути заповнені' });
+    }
+
+    const newMessage = new Message({
+      content,
+      from: new mongoose.Types.ObjectId(from),
+      to: new mongoose.Types.ObjectId(to),
+      timestamp,
+    });
+
+    await newMessage.save();
+    res.status(201).json(newMessage);
+  } catch (error) {
+    console.error('Помилка при збереженні повідомлення:', error);
+    res.status(500).json({ error: 'Сталася помилка на сервері' });
+  }
+});
+
+// Get Messages
+app.get('/api/messages', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const messages = await Message.find({
+      $or: [
+        { from: req.user.userId, to: userId },
+        { from: userId, to: req.user.userId },
+      ],
+    }).sort({ timestamp: 1 });
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json({ error: 'Не вдалося отримати повідомлення' });
+  }
+});
+// Get Chats
+app.get('/api/chats', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    // Отримуємо всі чати для користувача і поповнюємо дані про користувачів
+    const chats = await Message.find({
+      $or: [{ from: userId }, { to: userId }],
+    })
+      .populate('from', 'name') // Поповнюємо дані про відправника
+      .populate('to', 'name')   // Поповнюємо дані про одержувача
+      .exec();
+
+    // Створюємо унікальний список чатів з іменами
+    const uniqueChats = [];
+    const seenUserIds = new Set();
+
+    chats.forEach((chat) => {
+      const isFromCurrentUser = chat.from && chat.from._id.toString() === userId;
+      const otherUser = isFromCurrentUser ? chat.to : chat.from;
+
+      // Перевірка, чи існує інший користувач
+      if (otherUser && !seenUserIds.has(otherUser._id.toString())) {
+        seenUserIds.add(otherUser._id.toString());
+        uniqueChats.push({
+          userId: otherUser._id,
+          name: otherUser.name || 'Анонімний', // Якщо ім'я відсутнє, використовуємо 'Анонімний'
+        });
+      }
+    });
+
+    res.status(200).json(uniqueChats);
+  } catch (error) {
+    console.error('Помилка при завантаженні чатів:', error);
+    res.status(500).json({ error: 'Сталася помилка при завантаженні чатів' });
+  }
+});
+
+
+
+// Search Users
+app.get('/api/search-users', authenticateToken, async (req, res) => {
+  try {
+    const { name } = req.query;
+    if (!name) return res.status(400).json({ error: 'Введіть ім\'я для пошуку' });
+
+    const users = await User.find({ name: { $regex: name, $options: 'i' } }).select('name email photoUrl');
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Сталася помилка при пошуку користувачів' });
+  }
+});
+// Delete Chat
+app.delete('/api/delete-chat', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const currentUserId = req.user.userId;
+
+    // Видаляємо всі повідомлення між поточним користувачем і вказаним користувачем
+    await Message.deleteMany({
+      $or: [
+        { from: currentUserId, to: userId },
+        { from: userId, to: currentUserId },
+      ],
+    });
+
+    res.status(200).json({ message: 'Чат успішно видалено' });
+  } catch (error) {
+    console.error('Помилка при видаленні чату:', error);
+    res.status(500).json({ error: 'Не вдалося видалити чат' });
+  }
+});
+
+// Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Сервер запущено на порту ${PORT}`));

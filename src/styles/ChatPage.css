@@ -1,56 +1,78 @@
-.chat-page {
-    padding: 20px;
-  }
-  
-  .chat-container {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-  }
-  
-  .message {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .self {
-    background-color: #e0f7fa;
-    border-color: #b2ebf2;
-    align-self: flex-end;
-  }
-  
-  .chat-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  .input-container {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .chat-input {
-    flex: 1;
-  }
-  
-  button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+.telegram-chat-container {
+  display: flex;
+  height: 100vh;
+}
+
+.chat-list {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  background-color: #f8f8f8;
+}
+
+.chat-item {
+  padding: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-item.active {
+  background-color: #e6e6e6;
+  font-weight: bold;
+}
+
+.chat-messages {
+  width: 70%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.message.sent {
+  text-align: right;
+}
+
+.message.received {
+  text-align: left;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.message-input {
+  display: flex;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.message-input button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.message-input button:hover {
+  background-color: #0056b3;
+}

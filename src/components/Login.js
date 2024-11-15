@@ -23,9 +23,10 @@ const Login = () => {
       if (response.ok) {
         setMessage('Успішний вхід!');
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId); // Збереження userId в localStorage
 
         setTimeout(() => {
-          navigate('/');
+          navigate('/'); // Перенаправлення на головну сторінку
         }, 1000);
       } else {
         setMessage(data.error || 'Неправильна електронна пошта або пароль');
