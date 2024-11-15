@@ -22,7 +22,7 @@ const ProfilePage = () => {
         }
         const data = await response.json();
         setUser(data);
-        setNewName(data.name); // Встановлюємо поточне ім'я
+        setNewName(data.name); 
       } catch (error) {
         console.error('Помилка при отриманні даних:', error);
       }
