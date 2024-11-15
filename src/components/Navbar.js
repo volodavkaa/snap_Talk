@@ -7,18 +7,14 @@ const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  // Перевіряємо, чи ми вже на сторінці логіну, щоб уникнути циклу
+  // Перевірка для перенаправлення, лише якщо не на сторінці /login або /register
   React.useEffect(() => {
-    if (!token && location.pathname !== '/login') {
+    if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
       navigate('/login');
     }
   }, [token, location, navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  };
-
+  // Сховати Navbar на сторінках логіну та реєстрації
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
@@ -49,7 +45,10 @@ const Navbar = () => {
         </li>
       </ul>
       {token && (
-        <button className="logout-button" onClick={handleLogout}>
+        <button className="logout-button" onClick={() => {
+          localStorage.removeItem('token');
+          navigate('/login');
+        }}>
           <i className="fas fa-sign-out-alt"></i> Вихід
         </button>
       )}
