@@ -7,9 +7,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
-  if (!token) {
-    navigate('/login');
-  }
+  // Перевіряємо, чи ми вже на сторінці логіну, щоб уникнути циклу
+  React.useEffect(() => {
+    if (!token && location.pathname !== '/login') {
+      navigate('/login');
+    }
+  }, [token, location, navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

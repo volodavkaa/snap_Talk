@@ -19,7 +19,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true })); // Це обробляє дані з форми
 app.use(express.json()); // Це обробляє JSON-дані
 
-
 // Використання рядка підключення з .env
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
@@ -141,6 +140,23 @@ app.get('/api/posts', async (req, res) => {
   } catch (error) {
     console.error('Помилка при отриманні постів:', error);
     res.status(500).json({ error: 'Не вдалося отримати пости' });
+  }
+});
+// Захищений маршрут для профілю
+app.get('/api/profile', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Користувач не знайдений' });
+    }
+    res.json({
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+    });
+  } catch (error) {
+    console.error('Помилка при отриманні даних профілю:', error);
+    res.status(500).json({ error: 'Сталася помилка при отриманні даних профілю' });
   }
 });
 
