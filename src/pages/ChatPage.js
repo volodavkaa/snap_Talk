@@ -8,7 +8,6 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
-  // Завантаження унікальних чатів з іменами
   useEffect(() => {
     const fetchChats = async () => {
       try {
@@ -25,7 +24,6 @@ const ChatPage = () => {
     fetchChats();
   }, []);
 
-  // Завантаження повідомлень для вибраного чату
   useEffect(() => {
     if (!selectedChat) return;
 
@@ -33,7 +31,7 @@ const ChatPage = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(
-          `http://localhost:5000/api/messages?userId=${selectedChat.userId}`,
+          `http://localhost:5000/api/messages?userId=${selectedChat}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -47,25 +45,6 @@ const ChatPage = () => {
     fetchMessages();
   }, [selectedChat]);
 
-  // Функція для видалення чату
-  const handleDeleteChat = async (userId) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/delete-chat?userId=${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // Оновлення списку чатів після видалення
-      setChats(chats.filter(chat => chat.userId !== userId));
-      if (selectedChat?.userId === userId) {
-        setSelectedChat(null); // Скидання вибраного чату, якщо він був видалений
-      }
-    } catch (error) {
-      console.error('Помилка при видаленні чату:', error);
-    }
-  };
-
-  // Обробка відправлення нового повідомлення
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !selectedChat) return;
 
@@ -73,11 +52,7 @@ const ChatPage = () => {
       const token = localStorage.getItem('token');
       const response = await axios.post(
         'http://localhost:5000/api/messages',
-        {
-          content: newMessage,
-          to: selectedChat.userId,
-          timestamp: new Date().toISOString(),
-        },
+        { content: newMessage, to: selectedChat },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -89,40 +64,47 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="telegram-chat-container">
+    <div className="chat-page-container">
       <div className="chat-list">
         {chats.map((chat) => (
-          <div key={chat.userId} className={`chat-item ${selectedChat?.userId === chat.userId ? 'active' : ''}`}>
-            <span onClick={() => setSelectedChat(chat)}>{chat.name}</span>
-            <button className="delete-button" onClick={() => handleDeleteChat(chat.userId)}>
-              🗑️ Видалити
-            </button>
+          <div
+            key={chat.userId}
+            className={`chat-item ${selectedChat === chat.userId ? 'active' : ''}`}
+            onClick={() => setSelectedChat(chat.userId)}
+          >
+            {chat.name}
           </div>
         ))}
       </div>
-      <div className="chat-messages">
+      <div className="chat-messages-container">
         {selectedChat ? (
           <>
-            <div className="messages-header">Чат з користувачем {selectedChat.name}</div>
             <div className="messages">
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className={`message ${message.from === selectedChat.userId ? 'received' : 'sent'}`}
+                  className={`message ${
+                    message.from === selectedChat ? 'received' : 'sent'
+                  }`}
                 >
                   <p>{message.content}</p>
-                  <span className="timestamp">{new Date(message.timestamp).toLocaleTimeString()}</span>
+                  <span className="timestamp">
+                    {new Date(message.timestamp).toLocaleTimeString()}
+                  </span>
                 </div>
               ))}
             </div>
-            <div className="message-input">
+            <div className="message-input-container">
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Введіть повідомлення..."
+                className="message-input"
               />
-              <button onClick={handleSendMessage}>Відправити</button>
+              <button onClick={handleSendMessage} className="send-button">
+                Відправити
+              </button>
             </div>
           </>
         ) : (

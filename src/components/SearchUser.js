@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Імпортуємо useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import '../styles/SearchUser.css';
 
 const SearchUser = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate(); // Використовуємо useNavigate для перенаправлення
+  const navigate = useNavigate(); 
 
   const handleSearch = async () => {
-    const token = localStorage.getItem('token'); // Отримання токена з localStorage
+    const token = localStorage.getItem('token'); 
 
     try {
       const response = await fetch(`http://localhost:5000/api/search-users?name=${searchTerm}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Додайте заголовок Authorization
+          Authorization: `Bearer ${token}`, 
         },
       });
 
@@ -28,10 +28,10 @@ const SearchUser = () => {
     }
   };
 
-  // Функція для обробки кліку на "Написати"
+  
   const handleChat = (user) => {
-    // Збережіть інформацію про вибраного користувача (можливо, у стані або localStorage)
-    navigate(`/chat/${user._id}`); // Перенаправляємо на сторінку чату з вибраним користувачем
+    
+    navigate(`/chat/${user._id}`); 
   };
 
   return (

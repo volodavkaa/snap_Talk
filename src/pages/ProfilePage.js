@@ -58,7 +58,7 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem('token');
 
-      // Зберігаємо нове ім'я
+    
       const response = await fetch('http://localhost:5000/api/update-profile', {
         method: 'POST',
         headers: {
@@ -72,7 +72,7 @@ const ProfilePage = () => {
         throw new Error('Не вдалося зберегти зміни профілю');
       }
 
-      // Зберігаємо новий аватар, якщо вибрано
+      
       if (newAvatar) {
         const formData = new FormData();
         formData.append('image', newAvatar);

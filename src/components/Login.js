@@ -67,7 +67,7 @@ const Login = () => {
         </form>
         {message && <p className="auth-message">{message}</p>}
         <div className="auth-link">
-          Немає акаунту? <Link to="/register">Реєстрація</Link> {/* Використовуємо Link */}
+          Немає акаунту? <Link to="/register">Реєстрація</Link> {}
         </div>
       </div>
     </div>

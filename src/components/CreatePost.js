@@ -10,8 +10,8 @@ const CreatePost = () => {
     e.preventDefault();
     setMessage('');
   
-    console.log('Title:', title); // Перевірте, чи значення зчитуються
-    console.log('Description:', description); // Перевірте, чи значення зчитуються
+    console.log('Title:', title); 
+    console.log('Description:', description); 
   
     if (!title || !description) {
       setMessage('Будь ласка, заповніть всі поля');

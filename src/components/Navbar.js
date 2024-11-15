@@ -6,16 +6,16 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId'); // Додаємо userId з localStorage
+  const userId = localStorage.getItem('userId'); 
 
-  // Виконується перевірка та перенаправлення, якщо немає токена
+  
   React.useEffect(() => {
     if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
       navigate('/login');
     }
   }, [token, location, navigate]);
 
-  // Сховати Navbar на сторінках логіну та реєстрації
+  
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
@@ -30,7 +30,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          {/* Використовуємо userId для посилання на чат */}
+          {}
           <Link to={`/chat/${userId}`}>
             <i className="fas fa-comments"></i> Чат
           </Link>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/PostsPage.css'; // Імпортуємо стилі
+import '../styles/PostsPage.css'; 
 
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
@@ -31,7 +31,7 @@ const PostsPage = () => {
       ) : (
         posts
           .slice(0)
-          .reverse() // Нові пости зверху
+          .reverse() 
           .map((post) => (
             <div className="post" key={post._id}>
               <h3 className="post-title">{post.title}</h3>

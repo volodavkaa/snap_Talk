@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  photoUrl: { // Додано поле для аватара
+  photoUrl: { 
     type: String,
   },
   posts: [
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post',
     },
-  ], // Поле для зберігання постів
+  ], 
 });
 
 module.exports = mongoose.model('User', userSchema);

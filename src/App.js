@@ -17,7 +17,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<PostsPage />} />
-          <Route path="/chat/:userId" element={<ChatPage />} /> {/* Маршрут з userId */}
+          <Route path="/chat/:userId" element={<ChatPage />} /> {}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/posts" element={<PostsPage />} />

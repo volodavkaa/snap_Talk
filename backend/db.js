@@ -6,7 +6,7 @@ const connectDB = async () => {
     console.log('MongoDB підключено!');
   } catch (error) {
     console.error('Помилка підключення до MongoDB:', error);
-    process.exit(1); // Зупиняємо процес у разі помилки
+    process.exit(1); 
   }
 };
 

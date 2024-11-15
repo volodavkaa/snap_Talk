@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Додано useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import '../styles/Register.css';
 
 const Register = () => {
@@ -7,7 +7,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Ініціалізація useNavigate
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,10 +23,10 @@ const Register = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage('Користувача успішно створено!');
-        // Додайте затримку перед перенаправленням
+        
         setTimeout(() => {
-          navigate('/login'); // Перенаправляємо на сторінку авторизації
-        }, 2000); // Затримка у 2 секунди
+          navigate('/login'); 
+        }, 2000); 
       } else {
         setMessage(data.error || 'Сталася помилка');
       }
