@@ -7,6 +7,10 @@ const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
+  if (!token) {
+    navigate('/login');
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -28,6 +32,11 @@ const Navbar = () => {
         <li>
           <Link to="/chat">
             <i className="fas fa-comments"></i> Чат
+          </Link>
+        </li>
+        <li>
+          <Link to="/create-post">
+            <i className="fas fa-plus-circle"></i> Створити пост
           </Link>
         </li>
       </ul>

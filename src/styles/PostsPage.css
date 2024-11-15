@@ -1,0 +1,48 @@
+.posts-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Висота сторінки */
+    padding: 20px;
+    background-color: #f4f4f4; /* Сірий фон */
+  }
+  
+  .posts-container {
+    padding: 20px;
+    max-width: 800px; /* Встановлюємо максимальну ширину контейнера */
+    margin: 20px auto; /* Відступи зверху/знизу та вирівнювання по центру */
+    border: 1px solid #ddd; /* Сіра рамка */
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  
+  .post {
+    border-bottom: 1px solid #ddd; /* Сіра лінія між постами */
+    padding: 15px 0;
+  }
+  
+  .post:last-child {
+    border-bottom: none; /* Приберіть лінію у останнього посту */
+  }
+  
+  .post h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+  }
+  
+  .post p {
+    margin: 10px 0;
+  }
+  
+  .post img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+    max-height: 300px; /* Обмеження висоти зображення */
+    object-fit: cover;
+  }
+  

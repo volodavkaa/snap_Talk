@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Імпортуємо Link з react-router-dom
 import '../styles/Login.css';
 
 const Login = () => {
@@ -43,18 +43,20 @@ const Login = () => {
         <h2 className="auth-title">Авторизація</h2>
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Електронна пошта:</label>
+            <label htmlFor="email">Електронна пошта:</label>
             <input
               type="email"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="input-group">
-            <label>Пароль:</label>
+            <label htmlFor="password">Пароль:</label>
             <input
               type="password"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -64,7 +66,7 @@ const Login = () => {
         </form>
         {message && <p className="auth-message">{message}</p>}
         <div className="auth-link">
-          Немає акаунту? <a href="/register">Реєстрація</a>
+          Немає акаунту? <Link to="/register">Реєстрація</Link> {/* Використовуємо Link */}
         </div>
       </div>
     </div>

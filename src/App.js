@@ -4,7 +4,8 @@ import ChatPage from './pages/ChatPage';
 import Navbar from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
-import Post from './components/Post'; 
+import CreatePost from './components/CreatePost'; 
+import PostsPage from './pages/PostsPage';
 import './styles/App.css';
 
 const App = () => {
@@ -17,7 +18,8 @@ const App = () => {
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/posts" element={<Post />} /> {}
+          <Route path="/posts" element={<PostsPage />} />
+          <Route path="/create-post" element={<CreatePost />} />
         </Routes>
       </Router>
     </div>
