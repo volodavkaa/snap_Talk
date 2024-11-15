@@ -88,8 +88,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-
-
 // Захищений маршрут
 app.get('/api/protected', authenticateToken, (req, res) => {
   res.json({ message: 'Це захищені дані', user: req.user });
@@ -105,7 +103,7 @@ app.post('/api/upload-image', upload.single('image'), async (req, res) => {
     res.status(500).json({ error: 'Не вдалося завантажити зображення' });
   }
 });
-// Маршрут для створення посту
+
 app.post('/api/posts', upload.single('image'), authenticateToken, async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -125,12 +123,23 @@ app.post('/api/posts', upload.single('image'), authenticateToken, async (req, re
     });
 
     await post.save();
+
+    // Оновлення користувача, додавання ID нового посту до масиву posts
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.userId,
+      { $push: { posts: post._id } },
+      { new: true }
+    );
+
+    console.log('Оновлений користувач:', updatedUser); // Лог оновленого користувача для перевірки
+
     res.status(201).json({ message: 'Пост успішно створено', post });
   } catch (error) {
     console.error('Помилка при створенні посту:', error);
     res.status(500).json({ error: 'Не вдалося створити пост' });
   }
 });
+
 
 // Маршрут для отримання всіх постів
 app.get('/api/posts', async (req, res) => {
@@ -142,25 +151,32 @@ app.get('/api/posts', async (req, res) => {
     res.status(500).json({ error: 'Не вдалося отримати пости' });
   }
 });
-// Захищений маршрут для профілю
+
+// Маршрут для отримання даних профілю
 app.get('/api/profile', authenticateToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    console.log('Отримання даних профілю для userId:', req.user.userId); // Логування userId
+    const user = await User.findById(req.user.userId).populate('posts');
+
     if (!user) {
+      console.log('Користувач не знайдений'); // Логування, якщо користувача не знайдено
       return res.status(404).json({ error: 'Користувач не знайдений' });
     }
+
+    console.log('Користувач знайдений:', user); // Логування знайденого користувача
+    console.log('Пости користувача:', user.posts); // Логування постів користувача
+
     res.json({
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
+      posts: user.posts, // Повертаємо пости користувача
     });
   } catch (error) {
     console.error('Помилка при отриманні даних профілю:', error);
     res.status(500).json({ error: 'Сталася помилка при отриманні даних профілю' });
   }
 });
-
-
 
 // Запуск сервера
 const PORT = process.env.PORT || 5000;

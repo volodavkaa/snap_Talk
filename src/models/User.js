@@ -18,6 +18,12 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post',
+    },
+  ], // Додано поле для зберігання постів
 });
 
 module.exports = mongoose.model('User', userSchema);
