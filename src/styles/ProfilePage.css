@@ -1,55 +1,140 @@
+/* ProfilePage.css */
+
+/* Загальний контейнер для профілю */
 .profile-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
+    max-width: 1200px; /* Збільшено ширину */
+    margin: 20px auto;
+    padding: 40px; /* Додано більше відступів */
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   }
   
-  .profile-container h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+  /* Контейнер для аватара і деталей */
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
   }
   
-  .profile-container p {
-    font-size: 1.1rem;
+  .profile-photo {
+    width: 100px; /* Збільшено розмір аватара */
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 30px; /* Більший відступ між аватаром і текстом */
+  }
+  
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profile-details p {
+    margin: 8px 0;
+    font-size: 16px; /* Збільшено розмір шрифту */
     color: #555;
-    margin: 5px 0;
   }
   
-  .profile-container h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-top: 30px;
+  /* Кнопка для зміни профілю */
+  .edit-profile-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Збільшено розмір шрифту */
+    margin-top: 20px; /* Більший відступ зверху */
+  }
+  
+  .edit-profile-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Сітка для відображення постів */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px; /* Збільшено відстань між постами */
+  }
+  
+  .post-thumbnail {
+    width: 100%;
+    height: 150px; /* Збільшено висоту мініатюр */
+    overflow: hidden;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .post-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .post-thumbnail:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Модальне вікно для перегляду посту */
+  .post-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .post-details {
+    background-color: #fff;
+    padding: 30px; /* Збільшено відступи */
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    text-align: center; /* Вирівнювання тексту по центру */
+  }
+  
+  .post-details h4 {
+    font-size: 24px; /* Збільшено розмір заголовка */
     margin-bottom: 10px;
   }
   
-  .profile-container .post {
-    background-color: #fff;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  .profile-container .post h4 {
-    font-size: 1.2rem;
-    color: #444;
-    margin-bottom: 5px;
-  }
-  
-  .profile-container .post p {
-    font-size: 1rem;
-    color: #666;
-  }
-  .profile-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
+  .post-details p {
+    font-size: 16px; /* Збільшено розмір опису */
     margin-bottom: 20px;
+  }
+  
+  .post-details img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  
+  .close-button {
+    background-color: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    text-align: center;
+    line-height: 35px;
+  }
+  
+  .close-button:hover {
+    background-color: #ff1a1a;
   }
   

@@ -16,14 +16,13 @@ const upload = multer(); // Ініціалізація Multer для заван�
 // Підключення до MongoDB
 connectDB();
 app.use(cors());
-app.use(express.urlencoded({ extended: true })); // Це обробляє дані з форми
-app.use(express.json()); // Це обробляє JSON-дані
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Використання рядка підключення з .env
 const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
 async function uploadImageToAzure(file) {
-  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING);
+  const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
   const containerClient = blobServiceClient.getContainerClient('image');
   const blobName = `${Date.now()}-${file.originalname}`;
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -31,7 +30,7 @@ async function uploadImageToAzure(file) {
   return blockBlobClient.url;
 }
 
-// Маршрут для реєстрації
+// Реєстрація користувача
 app.post('/api/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -48,7 +47,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Маршрут для авторизації
+// Авторизація користувача
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,12 +66,10 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Middleware для перевірки токена
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-
-  console.log('Auth Header:', authHeader); // Додано для перевірки
-  console.log('Token:', token); // Додано для перевірки
 
   if (!token) {
     return res.sendStatus(401); // Unauthorized
@@ -80,7 +77,6 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, 'your_jwt_secret', (err, user) => {
     if (err) {
-      console.log('JWT Error:', err); // Додано для перевірки
       return res.sendStatus(403); // Forbidden
     }
     req.user = user;
@@ -88,12 +84,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Захищений маршрут
-app.get('/api/protected', authenticateToken, (req, res) => {
-  res.json({ message: 'Це захищені дані', user: req.user });
-});
-
-// Маршрут для завантаження зображень
+// Захищений маршрут для завантаження зображень
 app.post('/api/upload-image', upload.single('image'), async (req, res) => {
   try {
     const file = req.file;
@@ -104,6 +95,7 @@ app.post('/api/upload-image', upload.single('image'), async (req, res) => {
   }
 });
 
+// Створення посту
 app.post('/api/posts', upload.single('image'), authenticateToken, async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -114,7 +106,6 @@ app.post('/api/posts', upload.single('image'), authenticateToken, async (req, re
       imageUrl = await uploadImageToAzure(file);
     }
 
-    // Створення нового посту
     const post = new Post({
       title,
       description,
@@ -131,50 +122,71 @@ app.post('/api/posts', upload.single('image'), authenticateToken, async (req, re
       { new: true }
     );
 
-    console.log('Оновлений користувач:', updatedUser); // Лог оновленого користувача для перевірки
-
     res.status(201).json({ message: 'Пост успішно створено', post });
   } catch (error) {
-    console.error('Помилка при створенні посту:', error);
     res.status(500).json({ error: 'Не вдалося створити пост' });
   }
 });
 
-
-// Маршрут для отримання всіх постів
+// Маршрут для отримання всіх постів (для вкладки "Пости")
 app.get('/api/posts', async (req, res) => {
   try {
     const posts = await Post.find().populate('author', 'name'); // Завантажуємо ім'я автора
     res.status(200).json(posts);
   } catch (error) {
-    console.error('Помилка при отриманні постів:', error);
     res.status(500).json({ error: 'Не вдалося отримати пости' });
   }
 });
 
-// Маршрут для отримання даних профілю
+// Отримання профілю користувача
 app.get('/api/profile', authenticateToken, async (req, res) => {
   try {
-    console.log('Отримання даних профілю для userId:', req.user.userId); // Логування userId
     const user = await User.findById(req.user.userId).populate('posts');
-
     if (!user) {
-      console.log('Користувач не знайдений'); // Логування, якщо користувача не знайдено
       return res.status(404).json({ error: 'Користувач не знайдений' });
     }
-
-    console.log('Користувач знайдений:', user); // Логування знайденого користувача
-    console.log('Пости користувача:', user.posts); // Логування постів користувача
-
     res.json({
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
-      posts: user.posts, // Повертаємо пости користувача
+      photoUrl: user.photoUrl,
+      posts: user.posts,
     });
   } catch (error) {
-    console.error('Помилка при отриманні даних профілю:', error);
     res.status(500).json({ error: 'Сталася помилка при отриманні даних профілю' });
+  }
+});
+
+// Завантаження аватара
+app.post('/api/upload-avatar', upload.single('image'), authenticateToken, async (req, res) => {
+  try {
+    const file = req.file;
+    const imageUrl = await uploadImageToAzure(file);
+
+    await User.findByIdAndUpdate(req.user.userId, { photoUrl: imageUrl });
+
+    res.status(200).json({ imageUrl });
+  } catch (error) {
+    res.status(500).json({ error: 'Не вдалося завантажити аватар' });
+  }
+});
+// Оновлення профілю користувача (з використанням middleware для аутентифікації)
+app.post('/api/update-profile', authenticateToken, async (req, res) => {
+  try {
+    const { name } = req.body;
+    const userId = req.user.userId; // Отримання userId з аутентифікації
+
+    // Оновіть ім'я користувача в базі даних
+    const updatedUser = await User.findByIdAndUpdate(userId, { name }, { new: true });
+    
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'Користувач не знайдений' });
+    }
+
+    res.status(200).json({ message: 'Профіль оновлено успішно', user: updatedUser });
+  } catch (error) {
+    console.error('Помилка при оновленні профілю:', error);
+    res.status(500).json({ error: 'Не вдалося оновити профіль' });
   }
 });
 
