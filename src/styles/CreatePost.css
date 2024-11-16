@@ -1,0 +1,172 @@
+.create-post-modern-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .create-post-card {
+    max-width: 600px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  
+  .create-post-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .create-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modern-input,
+  .modern-textarea {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 16px;
+    color: #555;
+    transition: border-color 0.3s;
+  }
+  
+  .modern-input:focus,
+  .modern-textarea:focus {
+    border-color: #0095f6;
+    outline: none;
+  }
+  
+  .modern-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .image-upload-container {
+    text-align: center;
+  }
+  
+  .image-upload-modern {
+    display: inline-block;
+    background-color: #f1f1f1;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .image-upload-modern:hover {
+    background-color: #e1e1e1;
+  }
+  
+  .image-upload-modern i {
+    margin-right: 5px;
+  }
+  
+  .image-uploaded-message {
+    font-size: 13px;
+    color: #28a745;
+    margin-top: 8px;
+  }
+  
+  .modern-submit-button {
+    background-color: #0095f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .modern-submit-button:hover {
+    background-color: #007bb5;
+  }
+  
+  .modern-message {
+    text-align: center;
+    font-size: 14px;
+    color: #e74c3c;
+    margin-top: 15px;
+  }
+  .image-preview-container {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  .image-preview-container {
+    position: relative;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 10px;
+  }
+  
+  .image-preview-container:hover .image-overlay {
+    opacity: 1;
+  }
+  
+  .image-action-button {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    margin: 0 10px;
+    font-size: 24px; /* Збільшено розмір іконок */
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .image-action-button:hover {
+    color: #ff4d4d; /* Зміна кольору при наведенні */
+  }
+  
+  

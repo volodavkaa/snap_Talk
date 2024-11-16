@@ -1,12 +1,12 @@
 
 .container {
-  margin-left: 200px; 
+  margin-left: 275px; /* Враховуємо ширину навбару */
   padding: 20px;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh; /* Гарантуємо, що вміст займає всю висоту екрану */
+  box-sizing: border-box;
 }
+
+
 
 
   

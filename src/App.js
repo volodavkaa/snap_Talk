@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import ChatPage from './pages/ChatPage';
 import Navbar from './components/Navbar';
 import Register from './components/Register';
@@ -10,14 +10,36 @@ import ProfilePage from './pages/ProfilePage';
 import SearchUser from './components/SearchUser';
 import './styles/App.css';
 
+// Компонент для блокування прокрутки
+const ScrollBlocker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Блокуємо прокрутку тільки на сторінці чату
+    if (location.pathname.startsWith('/chat')) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    // Скидання стилю при відмонтовані компонента
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [location]);
+
+  return null;
+};
+
 const App = () => {
   return (
     <div className="container">
       <Router>
         <Navbar />
+        <ScrollBlocker /> {/* Додаємо ScrollBlocker */}
         <Routes>
           <Route path="/" element={<PostsPage />} />
-          <Route path="/chat/:userId" element={<ChatPage />} /> {}
+          <Route path="/chat/:userId" element={<ChatPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/posts" element={<PostsPage />} />

@@ -6,16 +6,14 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId'); 
+  const userId = localStorage.getItem('userId');
 
-  
   React.useEffect(() => {
     if (!token && location.pathname !== '/login' && location.pathname !== '/register') {
       navigate('/login');
     }
   }, [token, location, navigate]);
 
-  
   if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
@@ -30,7 +28,6 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          {}
           <Link to={`/chat/${userId}`}>
             <i className="fas fa-comments"></i> Чат
           </Link>

@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  width: 275px; 
+  width: 275px;
   background-color: #f8f8f8;
   display: flex;
   flex-direction: column;
@@ -11,12 +11,12 @@
   padding: 20px 10px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 .logo {
   font-family: 'Comforter Brush', cursive;
-  font-size: 30px; 
+  font-size: 30px;
   color: #000;
   text-align: center;
   white-space: nowrap;
@@ -66,8 +66,8 @@
   align-items: center;
   cursor: pointer;
   transition: color 0.3s;
-  margin-top: auto; 
-  padding: 40px; 
+  margin-top: auto;
+  padding: 40px;
 }
 
 .logout-button:hover {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import '../styles/ChatPage.css';
 
@@ -7,6 +7,7 @@ const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -37,6 +38,7 @@ const ChatPage = () => {
           }
         );
         setMessages(response.data);
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
       } catch (error) {
         console.error('Помилка при завантаженні повідомлень:', error);
       }
@@ -58,9 +60,14 @@ const ChatPage = () => {
 
       setMessages([...messages, response.data]);
       setNewMessage('');
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
       console.error('Помилка при відправленні повідомлення:', error);
     }
+  };
+
+  const handleClearMessage = () => {
+    setNewMessage('');
   };
 
   return (
@@ -93,6 +100,7 @@ const ChatPage = () => {
                   </span>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
             <div className="message-input-container">
               <input
@@ -102,8 +110,17 @@ const ChatPage = () => {
                 placeholder="Введіть повідомлення..."
                 className="message-input"
               />
-              <button onClick={handleSendMessage} className="send-button">
-                Відправити
+              <button
+                className={`clear-button ${newMessage ? 'active' : ''}`}
+                onClick={handleClearMessage}
+              >
+                <i className="fas fa-trash-alt"></i>
+              </button>
+              <button
+                className={`send-button ${newMessage ? 'active' : ''}`}
+                onClick={handleSendMessage}
+              >
+                <i className="fas fa-paper-plane"></i>
               </button>
             </div>
           </>
