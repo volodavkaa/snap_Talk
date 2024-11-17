@@ -22,7 +22,7 @@ const ProfilePage = () => {
         }
         const data = await response.json();
         setUser(data);
-        setNewName(data.name); 
+        setNewName(data.name);
       } catch (error) {
         console.error('Помилка при отриманні даних:', error);
       }
@@ -58,7 +58,6 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem('token');
 
-    
       const response = await fetch('http://localhost:5000/api/update-profile', {
         method: 'POST',
         headers: {
@@ -72,7 +71,6 @@ const ProfilePage = () => {
         throw new Error('Не вдалося зберегти зміни профілю');
       }
 
-      
       if (newAvatar) {
         const formData = new FormData();
         formData.append('image', newAvatar);

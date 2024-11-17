@@ -1,140 +1,129 @@
-/* ProfilePage.css */
 
-/* Загальний контейнер для профілю */
 .profile-container {
-    max-width: 1200px; /* Збільшено ширину */
-    margin: 20px auto;
-    padding: 40px; /* Додано більше відступів */
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Контейнер для аватара і деталей */
-  .avatar-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .profile-photo {
-    width: 100px; /* Збільшено розмір аватара */
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 30px; /* Більший відступ між аватаром і текстом */
-  }
-  
-  .profile-details {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .profile-details p {
-    margin: 8px 0;
-    font-size: 16px; /* Збільшено розмір шрифту */
-    color: #555;
-  }
-  
-  /* Кнопка для зміни профілю */
-  .edit-profile-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px; /* Збільшено розмір шрифту */
-    margin-top: 20px; /* Більший відступ зверху */
-  }
-  
-  .edit-profile-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Сітка для відображення постів */
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px; /* Збільшено відстань між постами */
-  }
-  
-  .post-thumbnail {
-    width: 100%;
-    height: 150px; /* Збільшено висоту мініатюр */
-    overflow: hidden;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .post-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-  
-  .post-thumbnail:hover {
-    transform: scale(1.05);
-  }
-  
-  /* Модальне вікно для перегляду посту */
-  .post-details-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .post-details {
-    background-color: #fff;
-    padding: 30px; /* Збільшено відступи */
-    border-radius: 8px;
-    max-width: 800px;
-    width: 90%;
-    text-align: center; /* Вирівнювання тексту по центру */
-  }
-  
-  .post-details h4 {
-    font-size: 24px; /* Збільшено розмір заголовка */
-    margin-bottom: 10px;
-  }
-  
-  .post-details p {
-    font-size: 16px; /* Збільшено розмір опису */
-    margin-bottom: 20px;
-  }
-  
-  .post-details img {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 5px;
-  }
-  
-  .close-button {
-    background-color: #ff4d4f;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    font-size: 18px;
-    cursor: pointer;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    text-align: center;
-    line-height: 35px;
-  }
-  
-  .close-button:hover {
-    background-color: #ff1a1a;
-  }
-  
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-right: 25px;
+  transition: transform 0.3s;
+}
+
+.profile-photo:hover {
+  transform: scale(1.05);
+}
+
+.edit-profile-button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-profile-button:hover {
+  background-color: #388e3c;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 15px; 
+  padding: 20px;
+}
+
+.post-thumbnail {
+  width: 100%;
+  height: 250px; 
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.post-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.post-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.post-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.post-details {
+  background-color: #fff;
+  padding: 20px; 
+  border-radius: 10px;
+  max-width: 600px; 
+  width: 80%; 
+  text-align: center;
+}
+.post-details img {
+  max-width: 100%;
+  max-height: 400px; 
+  object-fit: cover; 
+  margin-top: 10px;
+  border-radius: 5px;
+}
+.post-details h4 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.post-details p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.close-button {
+  background-color: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.close-button:hover {
+  background-color: #ff4747;
+}
