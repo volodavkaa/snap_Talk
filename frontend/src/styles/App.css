@@ -1,8 +1,8 @@
 
 .container {
-  margin-left: 275px; /* Враховуємо ширину навбару */
+  margin-left: 275px; 
   padding: 20px;
-  min-height: 100vh; /* Гарантуємо, що вміст займає всю висоту екрану */
+  min-height: 100vh; 
   box-sizing: border-box;
 }
 
