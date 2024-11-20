@@ -6,9 +6,9 @@ const multer = require('multer');
 const { BlobServiceClient } = require('@azure/storage-blob');
 const mongoose = require('mongoose');
 const connectDB = require('./db');
-const User = require('../src/models/User');
-const Post = require('../src/models/Post');
-const Message = require('../src/models/Message');
+const User = require('./models/User');
+const Post = require('./models/Post');
+const Message = require('./models/Message');
 require('dotenv').config();
 
 const app = express();
