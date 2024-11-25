@@ -70,6 +70,10 @@ const ChatPage = () => {
     setNewMessage('');
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="chat-page-container">
       <div className="chat-list">
@@ -121,6 +125,9 @@ const ChatPage = () => {
                 onClick={handleSendMessage}
               >
                 <i className="fas fa-paper-plane"></i>
+              </button>
+              <button className="scroll-to-bottom" onClick={scrollToBottom}>
+                <i className="fas fa-arrow-down"></i>
               </button>
             </div>
           </>

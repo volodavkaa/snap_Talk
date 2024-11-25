@@ -256,6 +256,44 @@ app.get('/api/search-users', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Сталася помилка при пошуку користувачів' });
   }
 });
+app.post('/api/create-chat', authenticateToken, async (req, res) => {
+  try {
+    const { to } = req.body;
+    const from = req.user.userId;
+
+    if (!to || !from) {
+      return res.status(400).json({ error: 'Відсутні обов’язкові дані для створення чату.' });
+    }
+
+    const existingChat = await Message.findOne({
+      $or: [
+        { from, to },
+        { from: to, to: from },
+      ],
+    });
+
+    if (existingChat) {
+      return res.status(200).json({ message: 'Чат вже існує', chatId: existingChat._id });
+    }
+
+   
+    const newChat = new Message({
+      content: 'Чат створено', 
+      from,
+      to,
+      timestamp: new Date(),
+    });
+
+    await newChat.save();
+
+    res.status(201).json({ message: 'Чат створено успішно', chatId: newChat._id });
+  } catch (error) {
+    console.error('Помилка при створенні чату:', error.message);
+    res.status(500).json({ error: 'Сталася помилка на сервері.' });
+  }
+});
+
+
 
 app.delete('/api/delete-chat', authenticateToken, async (req, res) => {
   try {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import '../styles/SearchUser.css';
+import axios from 'axios'; 
 
 const SearchUser = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,9 +9,28 @@ const SearchUser = () => {
   const navigate = useNavigate();
   const currentUserId = localStorage.getItem('userId');
 
+  
+  const handleChat = async (user) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await axios.post(
+        'http://localhost:5000/api/create-chat',
+        { to: user._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        navigate(`/chat/${user._id}`); 
+      }
+    } catch (error) {
+      console.error('Не вдалося створити чат:', error);
+    }
+  };
+
   useEffect(() => {
     if (searchTerm.trim() === '') {
-      setUsers([]); // Очищуємо результати, якщо пошуковий термін порожній
+      setUsers([]); 
       return;
     }
 
@@ -39,10 +59,6 @@ const SearchUser = () => {
     fetchUsers();
   }, [searchTerm, currentUserId]);
 
-  const handleChat = (user) => {
-    navigate(`/chat/${user._id}`);
-  };
-
   return (
     <div className="search-container">
       <h2>Пошук користувачів</h2>
@@ -56,7 +72,7 @@ const SearchUser = () => {
         {users.map((user) => (
           <div key={user._id} className="user-card">
             <p>{user.name}</p>
-            <button onClick={() => handleChat(user)}>Написати</button>
+            <button onClick={() => handleChat(user)}>Написати</button> {}
           </div>
         ))}
       </div>

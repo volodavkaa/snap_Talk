@@ -172,34 +172,64 @@
 }
 
 .clear-button,
-.send-button {
-  padding: 10px;
+.send-button,
+.scroll-to-bottom {
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  border: none;
-  background-color: #ccc;
-  color: white;
+  background-color: #ccc; 
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  font-size: 18px;
   cursor: default;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+  border: none;
 }
 
 .clear-button.active {
-  background-color: #ff4d4f;
+  background-color: #ff4d4f; 
   cursor: pointer;
+}
+
+.clear-button.active:hover {
+  background-color: #d32f2f; 
 }
 
 .send-button.active {
-  background-color: #0088cc;
+  background-color: #007bff; 
   cursor: pointer;
 }
 
+.send-button.active:hover {
+  background-color: #0056b3; 
+}
+
+.scroll-to-bottom.active {
+  background-color: #007bff;
+  cursor: pointer;
+}
+
+.scroll-to-bottom:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
 .clear-button i,
-.send-button i {
-  font-size: 18px;
+.send-button i,
+.scroll-to-bottom i {
+  font-size: 20px;
 }
 
 .clear-button {
   margin-right: 10px;
+}
+
+.send-button {
+  margin-right: 10px;
+}
+
+.scroll-to-bottom {
+  margin-left: 10px;
 }

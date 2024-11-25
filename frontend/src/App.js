@@ -10,19 +10,17 @@ import ProfilePage from './pages/ProfilePage';
 import SearchUser from './components/SearchUser';
 import './styles/App.css';
 
-// Компонент для блокування прокрутки
+
 const ScrollBlocker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Блокуємо прокрутку тільки на сторінці чату
+
     if (location.pathname.startsWith('/chat')) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-
-    // Скидання стилю при відмонтовані компонента
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -36,7 +34,7 @@ const App = () => {
     <div className="container">
       <Router>
         <Navbar />
-        <ScrollBlocker /> {/* Додаємо ScrollBlocker */}
+        <ScrollBlocker /> {}
         <Routes>
           <Route path="/" element={<PostsPage />} />
           <Route path="/chat/:userId" element={<ChatPage />} />
